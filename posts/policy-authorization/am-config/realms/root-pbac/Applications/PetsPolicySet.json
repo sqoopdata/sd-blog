@@ -1,0 +1,29 @@
+{
+  "metadata" : {
+    "realm" : "/pbac",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Applications",
+    "entityId" : "PetsPolicySet",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "PetsPolicySet",
+    "name" : "PetsPolicySet",
+    "displayName" : null,
+    "creationDate" : 1628606866620,
+    "attributeNames" : [ ],
+    "description" : "Policy AuthZ Demo",
+    "createdBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "conditions" : [ "Script", "AMIdentityMembership", "IPv6", "IPv4", "SimpleTime", "LEAuthLevel", "LDAPFilter", "AuthScheme", "Session", "AND", "AuthenticateToRealm", "ResourceEnvIP", "OAuth2Scope", "SessionProperty", "OR", "NOT", "AuthLevel", "AuthenticateToService" ],
+    "saveIndex" : null,
+    "searchIndex" : null,
+    "resourceComparator" : "com.sun.identity.entitlement.URLResourceName",
+    "applicationType" : "iPlanetAMWebAgentService",
+    "entitlementCombiner" : "DenyOverride",
+    "subjects" : [ "AuthenticatedUsers", "NOT", "Identity", "OR", "AND", "JwtClaim" ],
+    "lastModifiedDate" : 1628606866620,
+    "lastModifiedBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "editable" : true,
+    "resourceTypeUuids" : [ "76656a38-5f8e-401b-83aa-4ccb74ce88d2" ]
+  }
+}

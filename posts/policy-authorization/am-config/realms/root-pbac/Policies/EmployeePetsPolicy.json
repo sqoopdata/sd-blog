@@ -1,0 +1,32 @@
+{
+  "metadata" : {
+    "realm" : "/pbac",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Policies",
+    "entityId" : "EmployeePetsPolicy",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "EmployeePetsPolicy",
+    "name" : "EmployeePetsPolicy",
+    "active" : true,
+    "description" : "Defines Pets Policies for Employees",
+    "resources" : [ "*://*:*/*/v1/pets/*" ],
+    "applicationName" : "PetsPolicySet",
+    "actionValues" : {
+      "GET" : true
+    },
+    "subject" : {
+      "type" : "AuthenticatedUsers"
+    },
+    "condition" : {
+      "type" : "LDAPFilter",
+      "ldapFilter" : "(&(objectclass=inetorgperson)(ismemberof=cn=Employee,ou=groups,dc=sqoopdata,dc=local))"
+    },
+    "resourceTypeUuid" : "76656a38-5f8e-401b-83aa-4ccb74ce88d2",
+    "lastModifiedBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "lastModifiedDate" : "2021-08-10T14:47:52.94Z",
+    "createdBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "creationDate" : "2021-08-10T14:47:52.94Z"
+  }
+}

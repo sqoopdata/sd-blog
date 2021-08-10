@@ -1,0 +1,723 @@
+{
+	"info": {
+		"_postman_id": "e8f7df02-d8e6-4ba0-ba6a-f0ebd2f0e03a",
+		"name": "SD-Blog-REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Policy-AuthZ",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Service Account Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"PAdmin_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains tokenId\", function () {",
+											"    pm.expect(jsonData).to.have.any.keys('access_token');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "amadmin"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "changeit"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "JDOE Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"JDOE_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains tokenId\", function () {",
+											"    pm.expect(jsonData).to.have.any.keys('access_token');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "jdoe"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DMcDONALD Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"DMCDONALD_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains tokenId\", function () {",
+											"    pm.expect(jsonData).to.have.any.keys('access_token');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "dmcdonald"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RSAUNDERS Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"RSAUNDERS_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains tokenId\", function () {",
+											"    pm.expect(jsonData).to.have.any.keys('access_token');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "rsaunders"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Policy-Sets",
+					"item": [
+						{
+							"name": "CREATE PetsPolicySet",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-API-Version",
+										"type": "text",
+										"value": "resource=2.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"PetsPolicySet\",\n    \"resourceTypeUuids\":[\n        \"76656a38-5f8e-401b-83aa-4ccb74ce88d2\"\n    ],\n    \"realm\":\"/pbac\",\n    \"conditions\":[\n        \"AND\",\n        \"Script\",\n        \"OR\",\n        \"NOT\",\n        \"AMIdentityMembership\",\n        \"AuthLevel\",\n        \"AuthScheme\",\n        \"AuthenticateToRealm\",\n        \"AuthenticateToService\",\n        \"IPv4\",\n        \"IPv6\",\n        \"LDAPFilter\",\n        \"LEAuthLevel\",\n        \"OAuth2Scope\",\n        \"ResourceEnvIP\",\n        \"Session\",\n        \"SessionProperty\",\n        \"SimpleTime\"\n    ],\n    \"applicationType\":\"iPlanetAMWebAgentService\",\n    \"description\":\"Policy AuthZ Demo\",\n    \"resourceComparator\":\"com.sun.identity.entitlement.URLResourceName\",\n    \"subjects\":[\n        \"AND\",\n        \"OR\",\n        \"NOT\",\n        \"AuthenticatedUsers\",\n        \"Identity\",\n        \"JwtClaim\"\n    ],\n    \"entitlementCombiner\":\"DenyOverride\",\n    \"saveIndex\":null,\n    \"searchIndex\":null,\n    \"attributeNames\":[\n    ]\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/applications/?_action=create",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"applications",
+										""
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "create"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET PetsPolicySet",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/applications/PetsPolicySet",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"applications",
+										"PetsPolicySet"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Policies",
+					"item": [
+						{
+							"name": "CREATE Employee Policy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "AQIC5...",
+										"disabled": true
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=1.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"EmployeePetsPolicy\",\n    \"active\": true,\n    \"description\": \"Defines Pets Policies for Employees\",\n    \"applicationName\": \"PetsPolicySet\",\n    \"actionValues\": {\n        \"GET\": true\n    },\n    \"resources\": [\n        \"*://*:*/*/v1/pets/*\"\n    ],\n    \"subject\": {\n        \"type\": \"AuthenticatedUsers\"\n    },\n    \"condition\": {\n        \"type\": \"LDAPFilter\",\n        \"ldapFilter\": \"(&(objectclass=inetorgperson)(ismemberof=cn=Employee,ou=groups,dc=sqoopdata,dc=local))\"\n    },\n    \"resourceTypeUuid\": \"76656a38-5f8e-401b-83aa-4ccb74ce88d2\"\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=create",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "create"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CREATE Manager Policy",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "AQIC5...",
+										"disabled": true
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=1.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"ManagerPetsPolicy\",\n    \"active\": true,\n    \"description\": \"Defines Pets Policies for Managers\",\n    \"applicationName\": \"PetsPolicySet\",\n    \"actionValues\": {\n        \"DELETE\": true,\n        \"POST\": true,\n        \"PUT\": true\n    },\n    \"resources\": [\n        \"*://*:*/*/v1/pets/*\"\n    ],\n    \"subject\": {\n        \"type\": \"AuthenticatedUsers\"\n    },\n    \"condition\": {\n        \"type\": \"LDAPFilter\",\n        \"ldapFilter\": \"(&(objectclass=inetorgperson)(sn=mc*)(ismemberof=cn=Manager,ou=groups,dc=sqoopdata,dc=local))\"\n    },\n    \"resourceTypeUuid\": \"76656a38-5f8e-401b-83aa-4ccb74ce88d2\"\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=create",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "create"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Employee Policy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies/ManagerPetsPolicy",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies",
+										"ManagerPetsPolicy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Manager Policy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies/ManagerPetsPolicy",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies",
+										"ManagerPetsPolicy"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Evaluate Access",
+					"item": [
+						{
+							"name": "EVALUATE JDOE Access",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resources\": [\n        \"https://pets.clinic.com:443/app/v1/pets/all\"\n    ],\n    \"application\": \"PetsPolicySet\",\n    \"subject\": {\n        \"ssoToken\": \"{{JDOE_SSO_TOKEN_ID}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=evaluate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "evaluate"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EVALUATE RSAUNDERS Access",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-API-Version",
+										"type": "text",
+										"value": "resource=2.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resources\": [\n        \"https://pets.clinic.com:443/app/v1/pets/all\"\n    ],\n    \"application\": \"PetsPolicySet\",\n    \"subject\": {\n        \"ssoToken\": \"{{RSAUNDERS_SSO_TOKEN_ID}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=evaluate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "evaluate"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EVALUATE DMcDONALD Access",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-API-Version",
+										"type": "text",
+										"value": "resource=2.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resources\": [\n        \"https://pets.clinic.com:443/app/v1/pets/all\"\n    ],\n    \"application\": \"PetsPolicySet\",\n    \"subject\": {\n        \"ssoToken\": \"{{DMCDONALD_SSO_TOKEN_ID}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=evaluate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "evaluate"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "JDOE_SSO_TOKEN_ID",
+			"value": ""
+		},
+		{
+			"key": "DMCDONALD_SSO_TOKEN_ID",
+			"value": ""
+		},
+		{
+			"key": "PAdmin_SSO_TOKEN_ID",
+			"value": ""
+		},
+		{
+			"key": "RSAUNDERS_SSO_TOKEN_ID",
+			"value": ""
+		}
+	]
+}
