@@ -8,4 +8,4 @@ The source code published under this repository is only for illustration and tea
 
 # Questions
 
-If you have any questions or need help, please feel free to reach us at `jsingh@sqoopdata.com`.
+If you have enjoyed reading our posts and need further help with your IAM requirements, we would be thrilled to speak with you. You can reach us at <contact@sqoopdata.com>.
