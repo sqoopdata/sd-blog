@@ -205,6 +205,72 @@
 							"response": []
 						},
 						{
+							"name": "ALICE Login Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"ALICE_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});",
+											"",
+											"pm.test(\"Response contains tokenId\", function () {",
+											"    pm.expect(jsonData).to.have.any.keys('access_token');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "alice"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									}
+								],
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "RSAUNDERS Login",
 							"event": [
 								{
@@ -696,6 +762,54 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "EVALUATE ALICE Access",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-API-Version",
+										"type": "text",
+										"value": "resource=2.1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resources\": [\n        \"https://pets.clinic.com:443/app/v1/pets/all\"\n    ],\n    \"application\": \"PetsPolicySet\",\n    \"subject\": {\n        \"ssoToken\": \"{{ALICE_SSO_TOKEN_ID}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity.sqoopdata.local:17143/openam/json/realms/root/realms/pbac/policies?_action=evaluate",
+									"protocol": "https",
+									"host": [
+										"identity",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"pbac",
+										"policies"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "evaluate"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -717,6 +831,10 @@
 		},
 		{
 			"key": "RSAUNDERS_SSO_TOKEN_ID",
+			"value": ""
+		},
+		{
+			"key": "ALICE_SSO_TOKEN_ID",
 			"value": ""
 		}
 	]
