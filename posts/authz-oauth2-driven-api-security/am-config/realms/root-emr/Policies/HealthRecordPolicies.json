@@ -1,0 +1,37 @@
+{
+  "metadata" : {
+    "realm" : "/emr",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Policies",
+    "entityId" : "HealthRecordPolicies",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "HealthRecordPolicies",
+    "name" : "HealthRecordPolicies",
+    "active" : true,
+    "description" : "Policy determines who can manage health records functionality",
+    "resources" : [ "healthrecords" ],
+    "applicationName" : "oauth2Scopes",
+    "actionValues" : {
+      "GRANT" : false
+    },
+    "subject" : {
+      "type" : "AND",
+      "subjects" : [ {
+        "type" : "AuthenticatedUsers"
+      }, {
+        "type" : "NOT",
+        "subject" : {
+          "type" : "Identity",
+          "subjectValues" : [ "id=doctor,ou=group,o=emr,ou=services,dc=sqoopdata,dc=local" ]
+        }
+      } ]
+    },
+    "resourceTypeUuid" : "d60b7a71-1dc6-44a5-8e48-e4b9d92dee8b",
+    "lastModifiedBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "lastModifiedDate" : "2021-09-07T16:08:34.193Z",
+    "createdBy" : "id=amadmin,ou=user,dc=sqoopdata,dc=local",
+    "creationDate" : "2021-09-07T16:08:34.193Z"
+  }
+}

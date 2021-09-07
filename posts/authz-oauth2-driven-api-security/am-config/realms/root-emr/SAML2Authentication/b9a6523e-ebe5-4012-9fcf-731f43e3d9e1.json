@@ -1,0 +1,36 @@
+{
+  "metadata" : {
+    "realm" : "/emr",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "SAML2Authentication",
+    "entityId" : "b9a6523e-ebe5-4012-9fcf-731f43e3d9e1",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "b9a6523e-ebe5-4012-9fcf-731f43e3d9e1",
+    "authComparison" : "MINIMUM",
+    "authnContextClassRef" : [ ],
+    "isPassive" : false,
+    "metaAlias" : "/sp",
+    "forceAuthn" : false,
+    "sloEnabled" : false,
+    "authnContextDeclRef" : [ ],
+    "requestBinding" : "HTTP_REDIRECT",
+    "nameIdFormat" : "urn:oasis:names:tc:SAML:2.0:nameid-format:persistent",
+    "binding" : "HTTP_ARTIFACT",
+    "idpEntityId" : "https://",
+    "allowCreate" : true,
+    "_type" : {
+      "_id" : "product-Saml2Node",
+      "name" : "SAML2 Authentication",
+      "collection" : true
+    },
+    "_outcomes" : [ {
+      "id" : "ACCOUNT_EXISTS",
+      "displayName" : "Account exists"
+    }, {
+      "id" : "NO_ACCOUNT",
+      "displayName" : "No account exists"
+    } ]
+  }
+}
