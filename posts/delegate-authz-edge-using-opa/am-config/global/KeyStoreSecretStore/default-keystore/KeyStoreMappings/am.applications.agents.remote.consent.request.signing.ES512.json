@@ -1,0 +1,21 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "KeyStoreMappings",
+    "entityId" : "am.applications.agents.remote.consent.request.signing.ES512",
+    "pathParams" : {
+      "KeyStoreSecretStore" : "default-keystore"
+    }
+  },
+  "data" : {
+    "_id" : "am.applications.agents.remote.consent.request.signing.ES512",
+    "aliases" : [ "es512test" ],
+    "secretId" : "am.applications.agents.remote.consent.request.signing.ES512",
+    "_type" : {
+      "_id" : "mappings",
+      "name" : "Mappings",
+      "collection" : true
+    }
+  }
+}

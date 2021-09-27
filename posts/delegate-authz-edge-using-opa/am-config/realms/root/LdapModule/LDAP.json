@@ -1,0 +1,36 @@
+{
+  "metadata" : {
+    "realm" : "/",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "LdapModule",
+    "entityId" : "LDAP",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "LDAP",
+    "userBindPassword" : null,
+    "openam-auth-ldap-connection-mode" : "LDAPS",
+    "authenticationLevel" : 0,
+    "searchScope" : "SUBTREE",
+    "returnUserDN" : true,
+    "profileAttributeMappings" : [ ],
+    "userBindDN" : "uid=am-config,ou=admins,dc=sqoopdata,dc=local",
+    "stopLdapbindAfterInmemoryLockedEnabled" : false,
+    "userSearchAttributes" : [ "uid" ],
+    "connectionHeartbeatTimeUnit" : "SECONDS",
+    "beheraPasswordPolicySupportEnabled" : true,
+    "userProfileRetrievalAttribute" : "uid",
+    "minimumPasswordLength" : "8",
+    "primaryLdapServer" : [ "configds1.sqoopdata.local:17136" ],
+    "connectionHeartbeatInterval" : 10,
+    "secondaryLdapServer" : [ ],
+    "userSearchStartDN" : [ "dc=sqoopdata,dc=local" ],
+    "trustAllServerCertificates" : false,
+    "operationTimeout" : 0,
+    "_type" : {
+      "_id" : "ldap",
+      "name" : "LDAP",
+      "collection" : true
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "AnonymousModule",
+    "entityId" : "AnonymousModule",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "authenticationLevel" : 0,
+      "caseSensitiveUsernameMatchingEnabled" : false,
+      "defaultAnonymousUsername" : "anonymous",
+      "validAnonymousUsers" : [ ]
+    },
+    "_type" : {
+      "_id" : "anonymous",
+      "name" : "Anonymous",
+      "collection" : false
+    }
+  }
+}

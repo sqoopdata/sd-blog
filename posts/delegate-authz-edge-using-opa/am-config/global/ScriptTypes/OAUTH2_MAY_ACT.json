@@ -1,0 +1,19 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "ScriptTypes",
+    "entityId" : "OAUTH2_MAY_ACT",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "OAUTH2_MAY_ACT",
+    "defaultScript" : "[Empty]",
+    "languages" : [ "JAVASCRIPT", "GROOVY" ],
+    "_type" : {
+      "_id" : "contexts",
+      "name" : "Scripting",
+      "collection" : true
+    }
+  }
+}

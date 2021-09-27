@@ -1,0 +1,19 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Platform",
+    "entityId" : "Platform",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "cookieDomains" : [ "sqoopdata.local" ],
+    "locale" : "en_US",
+    "_type" : {
+      "_id" : "platform",
+      "name" : "Platform",
+      "collection" : false
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "metadata" : {
+    "realm" : "/emr",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Scripts",
+    "entityId" : "d22f9a0c-426a-4466-b95e-d0f125b0d5fa",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "d22f9a0c-426a-4466-b95e-d0f125b0d5fa",
+    "name" : "OAuth2 Access Token Modification Script",
+    "description" : "Default global script for OAuth2 Access Token Modification",
+    "script" : "LyoKICogQ29weXJpZ2h0IDIwMTktMjAyMCBGb3JnZVJvY2sgQVMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQKICoKICogVXNlIG9mIHRoaXMgY29kZSByZXF1aXJlcyBhIGNvbW1lcmNpYWwgc29mdHdhcmUgbGljZW5zZSB3aXRoIEZvcmdlUm9jayBBUy4KICogb3Igd2l0aCBvbmUgb2YgaXRzIGFmZmlsaWF0ZXMuIEFsbCB1c2Ugc2hhbGwgYmUgZXhjbHVzaXZlbHkgc3ViamVjdAogKiB0byBzdWNoIGxpY2Vuc2UgYmV0d2VlbiB0aGUgbGljZW5zZWUgYW5kIEZvcmdlUm9jayBBUy4KICovCgppbXBvcnQgb3JnLmZvcmdlcm9jay5odHRwLnByb3RvY29sLlJlcXVlc3QKaW1wb3J0IG9yZy5mb3JnZXJvY2suaHR0cC5wcm90b2NvbC5SZXNwb25zZQoKaW1wb3J0IGNvbS5pcGxhbmV0LnNzby5TU09FeGNlcHRpb24KCmltcG9ydCBncm9vdnkuanNvbi5Kc29uU2x1cnBlcgppbXBvcnQgY29tLnN1bi5pZGVudGl0eS5pZG0uSWRUeXBlCgphY2Nlc3NUb2tlbi5zZXRGaWVsZCgicm9sZXMiLCBpZGVudGl0eS5nZXRNZW1iZXJzaGlwcyhJZFR5cGUuR1JPVVApLmNvbGxlY3QgeyBncm91cCAtPiAnUk9MRV8nICsgZ3JvdXAubmFtZSB9KQ==",
+    "default" : true,
+    "language" : "GROOVY",
+    "context" : "OAUTH2_ACCESS_TOKEN_MODIFICATION",
+    "createdBy" : "null",
+    "creationDate" : 0,
+    "lastModifiedBy" : "null",
+    "lastModifiedDate" : 0
+  }
+}

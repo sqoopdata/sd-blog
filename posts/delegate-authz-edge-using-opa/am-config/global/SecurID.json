@@ -1,0 +1,21 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "SecurID",
+    "entityId" : "SecurID",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "serverConfigPath" : "/etc/forgerock/access-manager/am7/amconfig-1/config/auth/ace/data",
+      "authenticationLevel" : 0
+    },
+    "_type" : {
+      "_id" : "securid",
+      "name" : "SecurID",
+      "collection" : false
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "AuthenticatorOath",
+    "entityId" : "AuthenticatorOath",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "oathAttrName" : "oathDeviceProfiles",
+      "authenticatorOATHDeviceSettingsEncryptionScheme" : "NONE",
+      "authenticatorOATHDeviceSettingsEncryptionKeystore" : "/etc/forgerock/access-manager/am7/amconfig-1/security/keystores/keystore.jks",
+      "authenticatorOATHDeviceSettingsEncryptionKeystoreType" : "JKS",
+      "authenticatorOATHDeviceSettingsEncryptionKeystorePassword" : null,
+      "authenticatorOATHDeviceSettingsEncryptionKeystoreKeyPairAlias" : "pushDeviceProfiles",
+      "authenticatorOATHSkippableName" : "oath2faEnabled"
+    },
+    "_type" : {
+      "_id" : "authenticatorOathService",
+      "name" : "ForgeRock Authenticator (OATH) Service",
+      "collection" : false
+    }
+  }
+}

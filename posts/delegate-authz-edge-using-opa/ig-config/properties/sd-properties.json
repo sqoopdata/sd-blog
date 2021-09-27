@@ -1,0 +1,9 @@
+{
+	"customProp1": "custom-val1",
+	"customProp2": "custom-val2",
+	"nestedProp": [
+		{
+			"nest1": "nestValue1"
+		}
+	]
+}

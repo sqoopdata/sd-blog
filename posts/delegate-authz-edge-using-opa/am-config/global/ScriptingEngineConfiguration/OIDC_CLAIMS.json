@@ -1,0 +1,27 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "ScriptingEngineConfiguration",
+    "entityId" : "engineConfiguration",
+    "pathParams" : {
+      "contexts" : "OIDC_CLAIMS"
+    }
+  },
+  "data" : {
+    "_id" : "engineConfiguration",
+    "whiteList" : [ "org.forgerock.util.promise.PromiseImpl", "org.codehaus.groovy.runtime.GStringImpl", "java.lang.Character", "org.forgerock.http.protocol.Response", "java.lang.Float", "java.util.LinkedHashMap", "org.forgerock.openidconnect.Claim", "java.util.Collections$UnmodifiableMap", "com.iplanet.sso.providers.dpro.SessionSsoToken", "java.lang.Double", "org.forgerock.macaroons.Macaroon", "org.forgerock.http.client.*", "java.lang.Object", "java.util.HashMap$Node", "com.sun.identity.idm.AMIdentity", "com.sun.identity.shared.debug.Debug", "java.util.LinkedHashMap$Entry", "org.forgerock.openam.oauth2.OpenAMAccessToken", "org.forgerock.http.protocol.Entity", "java.util.Collections$UnmodifiableSet", "groovy.json.JsonSlurper", "java.util.Collections$1", "java.util.HashMap$KeyIterator", "java.lang.Byte", "com.sun.identity.idm.IdType", "java.lang.String", "java.util.LinkedHashSet", "java.util.HashSet", "org.forgerock.oauth2.core.UserInfoClaims", "java.util.HashMap", "java.util.Collections$SingletonList", "java.util.TreeMap", "java.util.TreeSet", "java.util.HashMap$Entry", "org.forgerock.openidconnect.ssoprovider.OpenIdConnectSSOToken", "java.util.HashMap$KeySet", "java.lang.Long", "java.net.URI", "java.util.LinkedList", "java.util.ArrayList", "org.forgerock.openam.oauth2.token.macaroon.MacaroonAccessToken", "org.codehaus.groovy.runtime.ScriptBytecodeAdapter", "java.lang.Math", "org.forgerock.oauth2.core.exceptions.InvalidRequestException", "java.util.LinkedHashMap$LinkedEntrySet", "java.lang.Void", "org.forgerock.openam.scripting.api.http.GroovyHttpClient", "java.lang.Integer", "java.util.Collections$EmptyList", "java.lang.Boolean", "org.forgerock.openam.scripting.api.http.JavaScriptHttpClient", "java.lang.StrictMath", "java.lang.Character$UnicodeBlock", "java.util.ArrayList$Itr", "java.lang.Short", "org.forgerock.oauth2.core.GrantType", "org.forgerock.http.protocol.Request", "java.lang.Character$Subset", "java.lang.Number", "java.util.LinkedHashMap$LinkedEntryIterator" ],
+    "serverTimeout" : 0,
+    "queueSize" : 10,
+    "useSecurityManager" : true,
+    "blackList" : [ "java.lang.Class", "java.lang.reflect.*", "java.security.AccessController" ],
+    "maxThreads" : 50,
+    "idleTimeout" : 60,
+    "coreThreads" : 10,
+    "_type" : {
+      "_id" : "engineConfiguration",
+      "name" : "Scripting engine configuration",
+      "collection" : false
+    }
+  }
+}

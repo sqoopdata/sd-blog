@@ -1,0 +1,24 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "DeviceProfilesService",
+    "entityId" : "DeviceProfilesService",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "deviceProfilesAttrName" : "deviceProfiles",
+      "deviceProfilesSettingsEncryptionKeystore" : "/etc/forgerock/access-manager/am7/amconfig-1/security/keystores/keystore.jks",
+      "deviceProfilesSettingsEncryptionScheme" : "NONE",
+      "deviceProfilesSettingsEncryptionKeystoreType" : "JKS",
+      "deviceProfilesSettingsEncryptionKeystorePassword" : null
+    },
+    "_type" : {
+      "_id" : "deviceProfilesService",
+      "name" : "Device Profiles Service",
+      "collection" : false
+    }
+  }
+}

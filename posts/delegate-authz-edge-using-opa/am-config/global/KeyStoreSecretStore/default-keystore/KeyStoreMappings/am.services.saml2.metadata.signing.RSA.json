@@ -1,0 +1,21 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "KeyStoreMappings",
+    "entityId" : "am.services.saml2.metadata.signing.RSA",
+    "pathParams" : {
+      "KeyStoreSecretStore" : "default-keystore"
+    }
+  },
+  "data" : {
+    "_id" : "am.services.saml2.metadata.signing.RSA",
+    "aliases" : [ "rsajwtsigningkey" ],
+    "secretId" : "am.services.saml2.metadata.signing.RSA",
+    "_type" : {
+      "_id" : "mappings",
+      "name" : "Mappings",
+      "collection" : true
+    }
+  }
+}

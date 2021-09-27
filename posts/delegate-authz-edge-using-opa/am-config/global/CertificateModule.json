@@ -1,0 +1,38 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "CertificateModule",
+    "entityId" : "CertificateModule",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "certificateAttributeProfileMappingExtension" : "none",
+      "matchCertificateInLdap" : false,
+      "crlMatchingCertificateAttribute" : "CN",
+      "certificateLdapServers" : [ "configds1.sqoopdata.local:17136" ],
+      "matchCertificateToCRL" : false,
+      "ldapCertificateAttribute" : "CN",
+      "updateCRLsFromDistributionPoint" : true,
+      "cacheCRLsInMemory" : true,
+      "crlHttpParameters" : "",
+      "authenticationLevel" : 0,
+      "certificateAttributeToProfileMapping" : "subject CN",
+      "ldapSearchStartDN" : [ ],
+      "userBindDN" : "uid=am-config,ou=admins,dc=sqoopdata,dc=local",
+      "trustedRemoteHosts" : [ "none" ],
+      "matchCACertificateToCRL" : false,
+      "iplanet-am-auth-cert-gw-cert-preferred" : false,
+      "ocspValidationEnabled" : false,
+      "sslEnabled" : false,
+      "clientCertificateHttpHeaderName" : ""
+    },
+    "_type" : {
+      "_id" : "certificate",
+      "name" : "Certificate",
+      "collection" : false
+    }
+  }
+}

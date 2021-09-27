@@ -1,0 +1,29 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "LegacyUserSelfService",
+    "entityId" : "LegacyUserSelfService",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "forgotPasswordTokenLifetime" : 900,
+      "selfServiceEnabled" : false,
+      "selfRegistrationConfirmationUrl" : "https://identity1.sqoopdata.local:17143/openam/XUI/confirm.html",
+      "forgotPasswordEnabled" : false,
+      "selfRegistrationTokenLifetime" : 900,
+      "selfRegistrationEnabled" : false,
+      "forgotPasswordConfirmationUrl" : "https://identity1.sqoopdata.local:17143/openam/XUI/confirm.html",
+      "userRegisteredDestination" : "default",
+      "confirmationIdHmacKey" : "94D/0M+5gDbD0gnuFzEZDd0rNrJn8OC66prQ9zhnCJ0=",
+      "protectedUserAttributes" : [ ]
+    },
+    "_type" : {
+      "_id" : "security",
+      "name" : "Legacy User Self Service",
+      "collection" : false
+    }
+  }
+}

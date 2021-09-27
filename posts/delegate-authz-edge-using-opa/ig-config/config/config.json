@@ -1,0 +1,22 @@
+{
+    "handler": {
+        "type": "Router",
+        "name": "_router",
+        "capture": "all"
+    },
+    "properties": {
+        "customProperties": {
+            "$location": "file://&{ig.instance.dir}/properties/sd-properties.json"
+        }
+    },
+    "heap": [
+        {
+            "name": "capture",
+            "type": "CaptureDecorator",
+            "config": {
+                "captureEntity": true,
+                "_captureContext": true
+            }
+        }
+    ]
+}

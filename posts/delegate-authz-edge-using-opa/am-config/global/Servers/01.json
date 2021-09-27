@@ -1,0 +1,14 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Servers",
+    "entityId" : "01",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "01",
+    "url" : "https://identity1.sqoopdata.local:17143/openam",
+    "siteName" : "SDFRLab1"
+  }
+}

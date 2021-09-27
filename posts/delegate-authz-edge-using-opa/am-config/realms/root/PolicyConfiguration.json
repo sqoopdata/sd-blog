@@ -1,0 +1,35 @@
+{
+  "metadata" : {
+    "realm" : "/",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "PolicyConfiguration",
+    "entityId" : "PolicyConfiguration",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "bindDn" : "uid=am-config,ou=admins,dc=sqoopdata,dc=local",
+    "bindPassword" : null,
+    "policyHeartbeatInterval" : 10,
+    "ldapServer" : [ "configds1.sqoopdata.local:17136" ],
+    "connectionPoolMinimumSize" : 1,
+    "usersSearchAttribute" : "uid",
+    "userAliasEnabled" : false,
+    "usersSearchFilter" : "(objectclass=inetorgperson)",
+    "searchTimeout" : 5,
+    "usersSearchScope" : "SCOPE_SUB",
+    "subjectsResultTTL" : 10,
+    "sslEnabled" : true,
+    "usersBaseDn" : "dc=sqoopdata,dc=local",
+    "connectionPoolMaximumSize" : 10,
+    "policyHeartbeatTimeUnit" : "SECONDS",
+    "realmSearchFilter" : "(objectclass=sunismanagedorganization)",
+    "maximumSearchResults" : 100,
+    "checkIfResourceTypeExists" : true,
+    "_type" : {
+      "_id" : "policyconfiguration",
+      "name" : "Policy Configuration",
+      "collection" : false
+    }
+  }
+}

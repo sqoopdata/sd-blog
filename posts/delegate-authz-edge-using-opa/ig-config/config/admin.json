@@ -1,0 +1,23 @@
+{
+	"mode": "DEVELOPMENT",
+  "prefix": "openig",
+  "heap": [
+    {
+      "name": "ClientHandler",
+      "type": "ClientHandler"
+    },
+    {
+      "name": "ApiProtectionFilter",
+      "type": "CorsFilter",
+      "config": {
+        "policies": [
+          {
+            "acceptedOrigins": [ "http://app.sqoopdata.local:8081" ],
+            "acceptedMethods": [ "GET", "POST", "DELETE" ],
+            "acceptedHeaders": [ "Content-Type" ]
+          }
+        ]
+      }
+    }
+  ]
+}

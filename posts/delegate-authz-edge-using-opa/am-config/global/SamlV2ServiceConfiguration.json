@@ -1,0 +1,29 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "SamlV2ServiceConfiguration",
+    "entityId" : "SamlV2ServiceConfiguration",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "nameIDInfoKeyAttribute" : "sun-fm-saml2-nameid-infokey",
+    "encryptedKeyInKeyInfo" : true,
+    "cacheCleanupInterval" : 600,
+    "nameIDInfoAttribute" : "sun-fm-saml2-nameid-info",
+    "idpDiscoveryCookieType" : "PERSISTENT",
+    "bufferLength" : 2048,
+    "idpDiscoveryCookieDomain" : "sqoopdata.local",
+    "xmlSigningClass" : "com.sun.identity.saml2.xmlsig.FMSigProvider",
+    "idpDiscoveryUrlSchema" : "HTTPS",
+    "signingCertValidation" : false,
+    "xmlEncryptionClass" : "com.sun.identity.saml2.xmlenc.FMEncProvider",
+    "caCertValidation" : false,
+    "_type" : {
+      "_id" : "saml2",
+      "name" : "SAML v2.0 Service Configuration",
+      "collection" : false
+    }
+  }
+}

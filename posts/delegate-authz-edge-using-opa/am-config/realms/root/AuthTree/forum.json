@@ -1,0 +1,40 @@
+{
+  "metadata" : {
+    "realm" : "/",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "AuthTree",
+    "entityId" : "forum",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "forum",
+    "staticNodes" : {
+      "startNode" : {
+        "x" : 50,
+        "y" : 25
+      },
+      "70e691a5-1e33-4ac3-a356-e7b6d60d92e0" : {
+        "x" : 506,
+        "y" : 226
+      },
+      "e301438c-0bd0-429c-ab0c-66126501069a" : {
+        "x" : 517,
+        "y" : 84
+      }
+    },
+    "uiConfig" : { },
+    "entryNodeId" : "b9a6523e-ebe5-4012-9fcf-731f43e3d9e1",
+    "nodes" : {
+      "b9a6523e-ebe5-4012-9fcf-731f43e3d9e1" : {
+        "displayName" : "SAML2 Authentication",
+        "nodeType" : "product-Saml2Node",
+        "x" : 222,
+        "y" : 123.5,
+        "connections" : {
+          "ACCOUNT_EXISTS" : "70e691a5-1e33-4ac3-a356-e7b6d60d92e0",
+          "NO_ACCOUNT" : "e301438c-0bd0-429c-ab0c-66126501069a"
+        }
+      }
+    }
+  }
+}

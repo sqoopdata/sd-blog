@@ -1,0 +1,50 @@
+{
+  "name" : "02-madoc-users",
+  "baseURI" : "http://madoc.sqoopdata.local:9080",
+  "condition" : "${matches(request.uri.path, '^/users')}",
+  "handler" : {
+    "type" : "Chain",
+    "config" : {
+      "filters" : [ {
+        "name" : "OAuth2ResourceServerFilter-1",
+        "type" : "OAuth2ResourceServerFilter",
+        "config" : {
+          "scopes" : [ "users" ],
+          "requireHttps" : true,
+          "realm" : "OpenIG",
+          "accessTokenResolver" : {
+            "name" : "token-resolver-1",
+            "type" : "TokenIntrospectionAccessTokenResolver",
+            "config" : {
+              "endpoint" : "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/introspect",
+              "providerHandler" : {
+                "type" : "Chain",
+                "config" : {
+                  "filters" : [ {
+                    "type" : "HeaderFilter",
+                    "config" : {
+                      "messageType" : "request",
+                      "add" : {
+                        "Authorization" : [ "Basic ${encodeBase64('resource-server:password')}" ]
+                      }
+                    }
+                  } ],
+                  "handler" : "ForgeRockClientHandler"
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+          "name": "OPAEdgeAuthorizeFilter",
+          "type": "ScriptableFilter",
+            "config": {
+                "type": "application/x-groovy",
+                "file": "OPAEdgeAuthorize.groovy"
+            }
+      }],
+      "handler" : "ReverseProxyHandler"
+    }
+  }
+}

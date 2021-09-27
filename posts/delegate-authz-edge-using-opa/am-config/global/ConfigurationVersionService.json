@@ -1,0 +1,18 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "ConfigurationVersionService",
+    "entityId" : "ConfigurationVersionService",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "configurationVersion" : "3.0.0.1",
+    "_type" : {
+      "_id" : "ConfigurationVersionService",
+      "name" : "Configuration Version Service",
+      "collection" : false
+    }
+  }
+}

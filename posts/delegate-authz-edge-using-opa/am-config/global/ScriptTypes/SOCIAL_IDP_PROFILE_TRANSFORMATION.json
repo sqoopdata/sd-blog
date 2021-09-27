@@ -1,0 +1,19 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "ScriptTypes",
+    "entityId" : "SOCIAL_IDP_PROFILE_TRANSFORMATION",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "SOCIAL_IDP_PROFILE_TRANSFORMATION",
+    "defaultScript" : "1d475815-72cb-42eb-aafd-4026989d28a7",
+    "languages" : [ "JAVASCRIPT", "GROOVY" ],
+    "_type" : {
+      "_id" : "contexts",
+      "name" : "Scripting",
+      "collection" : true
+    }
+  }
+}

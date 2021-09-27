@@ -1,0 +1,22 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "DeviceIdSaveModule",
+    "entityId" : "DeviceIdSaveModule",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "defaults" : {
+      "authenticationLevel" : 0,
+      "maxProfilesAllowed" : 5,
+      "autoStoreProfiles" : false
+    },
+    "_type" : {
+      "_id" : "deviceidsave",
+      "name" : "Device Id (Save)",
+      "collection" : false
+    }
+  }
+}

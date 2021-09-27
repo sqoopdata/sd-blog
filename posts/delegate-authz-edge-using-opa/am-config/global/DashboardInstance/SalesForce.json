@@ -1,0 +1,23 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "DashboardInstance",
+    "entityId" : "SalesForce",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "SalesForce",
+    "icfIdentifier" : "idm magic 12",
+    "login" : "http://www.salesforce.com",
+    "displayName" : "SalesForce",
+    "name" : "SalesForce",
+    "className" : "SAML2ApplicationClass",
+    "icon" : "images/logos/salesforce.png",
+    "_type" : {
+      "_id" : "instances",
+      "name" : "instance",
+      "collection" : true
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "IDMProvisioning",
+    "entityId" : "IDMProvisioning",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "",
+    "jwtSigningCompatibilityMode" : false,
+    "enabled" : false,
+    "_type" : {
+      "_id" : "idm-integration",
+      "name" : "IdmIntegrationService",
+      "collection" : false
+    }
+  }
+}

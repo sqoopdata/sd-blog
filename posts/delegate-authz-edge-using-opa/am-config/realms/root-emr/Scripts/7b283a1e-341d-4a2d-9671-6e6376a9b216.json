@@ -1,0 +1,22 @@
+{
+  "metadata" : {
+    "realm" : "/emr",
+    "amsterVersion" : "7.1.0",
+    "entityType" : "Scripts",
+    "entityId" : "7b283a1e-341d-4a2d-9671-6e6376a9b216",
+    "pathParams" : { }
+  },
+  "data" : {
+    "_id" : "7b283a1e-341d-4a2d-9671-6e6376a9b216",
+    "name" : "SDDemoScript",
+    "description" : "Sqoop Data's Demo on Delegating AuthZ to Edge",
+    "script" : "aW1wb3J0IG9yZy5mb3JnZXJvY2suaHR0cC5wcm90b2NvbC5SZXF1ZXN0CmltcG9ydCBvcmcuZm9yZ2Vyb2NrLmh0dHAucHJvdG9jb2wuUmVzcG9uc2UKaW1wb3J0IGNvbS5pcGxhbmV0LnNzby5TU09FeGNlcHRpb24KaW1wb3J0IGdyb292eS5qc29uLkpzb25TbHVycGVyCmltcG9ydCBjb20uc3VuLmlkZW50aXR5LmlkbS5JZFR5cGUKCmFjY2Vzc1Rva2VuLnNldEZpZWxkKCJyb2xlcyIsIGlkZW50aXR5LmdldE1lbWJlcnNoaXBzKElkVHlwZS5HUk9VUCkuY29sbGVjdCB7IGdyb3VwIC0+ICdST0xFXycgKyBncm91cC5uYW1lIH0p",
+    "default" : false,
+    "language" : "GROOVY",
+    "context" : "OAUTH2_ACCESS_TOKEN_MODIFICATION",
+    "createdBy" : "null",
+    "creationDate" : 0,
+    "lastModifiedBy" : "null",
+    "lastModifiedDate" : 0
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "metadata" : {
+    "realm" : null,
+    "amsterVersion" : "7.1.0",
+    "entityType" : "DirectoryConfiguration",
+    "entityId" : "https://identity1.sqoopdata.local:17143/openam",
+    "pathParams" : {
+      "serverName" : "https://identity1.sqoopdata.local:17143/openam"
+    }
+  },
+  "data" : {
+    "_id" : "01/properties/directoryConfiguration",
+    "directoryConfiguration" : {
+      "minConnectionPool" : 1,
+      "maxConnectionPool" : 10,
+      "bindDn" : "uid=am-config,ou=admins,dc=sqoopdata,dc=local",
+      "bindPassword" : null
+    },
+    "directoryServers" : [ {
+      "hostName" : "configds1.sqoopdata.local",
+      "serverName" : "Server1",
+      "connectionType" : "SSL",
+      "portNumber" : "17136"
+    } ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "01-filter-demo",
+    "baseURI": "http://identity1.sqoopdata.local:8081",
+    "condition": "${matches(request.uri.path, '^/status')}",
+    "handler": {
+        "type": "StaticResponseHandler",
+        "config": {
+            "status": 200,
+            "reason": "OK",
+            "entity": "I AM ALIVE!"
+        }
+    }
+}
