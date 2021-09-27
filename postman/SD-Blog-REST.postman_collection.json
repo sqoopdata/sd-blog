@@ -2289,7 +2289,7 @@
 									"urlencoded": [
 										{
 											"key": "scope",
-											"value": "appointments",
+											"value": "appointments openid profile",
 											"type": "text"
 										},
 										{
@@ -2452,6 +2452,7 @@
 											"    var accessToken = json.access_token;",
 											"    ",
 											"    pm.globals.set(\"accessToken\", accessToken);",
+											"    pm.globals.set(\"idToken\", id_token);",
 											"});",
 											""
 										],
@@ -2619,7 +2620,7 @@
 									}
 								],
 								"url": {
-									"raw": "https://ig1.sqoopdata.local:17193/healthrecords?username=alice",
+									"raw": "https://ig1.sqoopdata.local:17193/healthrecords?username=patient",
 									"protocol": "https",
 									"host": [
 										"ig1",
@@ -2633,7 +2634,7 @@
 									"query": [
 										{
 											"key": "username",
-											"value": "alice"
+											"value": "patient"
 										}
 									]
 								}
@@ -2641,6 +2642,1600 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Delegate-AuthZ-to-Edge-OPA",
+			"item": [
+				{
+					"name": "Set-Up",
+					"item": [
+						{
+							"name": "Step1: Service Account Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"if(pm.response.code == 200)",
+											"{",
+											"    pm.collectionVariables.set(\"PAdmin_SSO_TOKEN_ID\", jsonData.tokenId);",
+											"}",
+											"",
+											"pm.test(\"Status code is 200.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.1"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "amadmin"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "changeit"
+									}
+								],
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/root/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step2: Create Custom Access Token Script",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(201);",
+											"    ",
+											"    var json = pm.response.json();",
+											"    var scriptId = json._id;",
+											"    pm.collectionVariables.set(\"scriptId\", scriptId);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=1.1",
+										"type": "text"
+									},
+									{
+										"key": "X-Requested-With",
+										"value": "ForgeRock Collection",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "cLnZSghbu8o4hSsS4zz9Xncu7dk.*AAJTSQACMDIAAlNLABxmbDhFRExWRUYvSm5heU9mT05SR256dHdhLzA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro=LOvzQx7u6OSemo_khOh4kTyTqXg.*AAJTSQACMDIAAlNLABwvZDYyWTU0N0VHOFI0N1ZBQ1ducEVadFhQZDA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"SDDemoScript\",\n    \"script\": \"aW1wb3J0IG9yZy5mb3JnZXJvY2suaHR0cC5wcm90b2NvbC5SZXF1ZXN0CmltcG9ydCBvcmcuZm9yZ2Vyb2NrLmh0dHAucHJvdG9jb2wuUmVzcG9uc2UKaW1wb3J0IGNvbS5pcGxhbmV0LnNzby5TU09FeGNlcHRpb24KaW1wb3J0IGdyb292eS5qc29uLkpzb25TbHVycGVyCmltcG9ydCBjb20uc3VuLmlkZW50aXR5LmlkbS5JZFR5cGUKCmFjY2Vzc1Rva2VuLnNldEZpZWxkKCJyb2xlcyIsIGlkZW50aXR5LmdldE1lbWJlcnNoaXBzKElkVHlwZS5HUk9VUCkuY29sbGVjdCB7IGdyb3VwIC0+ICdST0xFXycgKyBncm91cC5uYW1lIH0p\",\n    \"language\": \"GROOVY\",\n    \"context\": \"OAUTH2_ACCESS_TOKEN_MODIFICATION\",\n    \"description\": \"Sqoop Data's Demo on Delegating AuthZ to Edge\"\n}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/root/realms/emr/scripts/?_action=create",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"scripts",
+										""
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "create"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step3: Allow IdType Object in Scripts",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Requested-With",
+										"value": "ForgeRock Collection"
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "cLnZSghbu8o4hSsS4zz9Xncu7dk.*AAJTSQACMDIAAlNLABxmbDhFRExWRUYvSm5heU9mT05SR256dHdhLzA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"disabled": true
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro=LOvzQx7u6OSemo_khOh4kTyTqXg.*AAJTSQACMDIAAlNLABwvZDYyWTU0N0VHOFI0N1ZBQ1ducEVadFhQZDA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"whiteList\": [\n    \"org.forgerock.util.promise.PromiseImpl\",\n    \"org.codehaus.groovy.runtime.GStringImpl\",\n    \"org.forgerock.openam.oauth2.token.grantset.Authorization$ModifiedAccessToken\",\n    \"java.lang.Character\",\n    \"java.lang.Float\",\n    \"java.util.LinkedHashMap\",\n    \"org.forgerock.openidconnect.Claim\",\n    \"org.forgerock.http.protocol.*\",\n    \"java.util.Collections$UnmodifiableMap\",\n    \"com.iplanet.sso.providers.dpro.SessionSsoToken\",\n    \"java.lang.Double\",\n    \"com.sun.identity.common.CaseInsensitiveHashMap\",\n    \"org.forgerock.openam.oauth2.token.stateless.StatelessAccessToken\",\n    \"org.forgerock.macaroons.Macaroon\",\n    \"org.forgerock.http.client.*\",\n    \"java.lang.Object\",\n    \"java.util.HashMap$Node\",\n    \"com.sun.identity.idm.AMIdentity\",\n    \"java.util.LinkedHashMap$Entry\",\n    \"com.sun.identity.shared.debug.Debug\",\n    \"org.forgerock.openam.oauth2.OpenAMAccessToken\",\n    \"org.forgerock.oauth2.core.StatefulAccessToken\",\n    \"java.util.Collections$UnmodifiableSet\",\n    \"groovy.json.JsonSlurper\",\n    \"java.util.Collections$1\",\n    \"java.util.HashMap$KeyIterator\",\n    \"java.lang.Byte\",\n    \"com.sun.identity.idm.IdType\",\n    \"java.lang.String\",\n    \"java.util.LinkedHashSet\",\n    \"java.util.HashSet\",\n    \"org.forgerock.oauth2.core.UserInfoClaims\",\n    \"java.util.HashMap\",\n    \"java.util.Collections$SingletonList\",\n    \"java.util.TreeMap\",\n    \"java.util.TreeSet\",\n    \"java.util.HashMap$Entry\",\n    \"org.forgerock.openidconnect.ssoprovider.OpenIdConnectSSOToken\",\n    \"java.util.HashMap$KeySet\",\n    \"java.lang.Long\",\n    \"java.net.URI\",\n    \"java.util.LinkedList\",\n    \"java.util.ArrayList\",\n    \"org.forgerock.openam.oauth2.token.macaroon.MacaroonAccessToken\",\n    \"org.codehaus.groovy.runtime.ScriptBytecodeAdapter\",\n    \"java.lang.Math\",\n    \"org.forgerock.oauth2.core.exceptions.InvalidRequestException\",\n    \"groovy.json.internal.LazyMap\",\n    \"java.util.LinkedHashMap$LinkedEntrySet\",\n    \"java.lang.Void\",\n    \"org.forgerock.http.Client\",\n    \"org.forgerock.openam.scripting.api.http.GroovyHttpClient\",\n    \"java.lang.Integer\",\n    \"java.util.Collections$EmptyList\",\n    \"java.lang.Boolean\",\n    \"org.forgerock.openam.scripting.api.http.JavaScriptHttpClient\",\n    \"java.lang.StrictMath\",\n    \"java.lang.Character$UnicodeBlock\",\n    \"java.util.ArrayList$Itr\",\n    \"java.lang.Short\",\n    \"org.forgerock.oauth2.core.GrantType\",\n    \"java.lang.Character$Subset\",\n    \"java.lang.Number\",\n    \"java.util.LinkedHashMap$LinkedEntryIterator\"\n  ]\n}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/global-config/services/scripting/contexts/OAUTH2_ACCESS_TOKEN_MODIFICATION/engineConfiguration",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"global-config",
+										"services",
+										"scripting",
+										"contexts",
+										"OAUTH2_ACCESS_TOKEN_MODIFICATION",
+										"engineConfiguration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step4: Create OAuth 2.0  Service Provider",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Tests",
+											"",
+											"pm.test(\"Status code is 201.\", () => {",
+											"  pm.expect(pm.response.code).to.eql(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": false
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "iplanetDirectoryPro",
+										"type": "text",
+										"value": "{{adminSSOToken}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-API-Version",
+										"type": "text",
+										"value": "resource=1.0"
+									},
+									{
+										"key": "ScriptID",
+										"value": "{{scriptId}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"advancedOAuth2Config\": {\n        \"responseTypeClasses\": [\n            \"code|org.forgerock.oauth2.core.AuthorizationCodeResponseTypeHandler\",\n            \"device_code|org.forgerock.oauth2.core.TokenResponseTypeHandler\",\n            \"token|org.forgerock.oauth2.core.TokenResponseTypeHandler\",\n            \"id_token|org.forgerock.openidconnect.IdTokenResponseTypeHandler\"\n        ],\n        \"grantTypes\": [\n            \"authorization_code\",\n            \"password\"\n        ]\n    },\n    \"coreOAuth2Config\": {\n        \"statelessTokensEnabled\": true,\n        \"accessTokenModificationScript\": \"{{scriptId}}\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/emr/realm-config/services/oauth-oidc?_action=create",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"emr",
+										"realm-config",
+										"services",
+										"oauth-oidc"
+									],
+									"query": [
+										{
+											"key": "_action",
+											"value": "create"
+										}
+									]
+								},
+								"description": "AM must be configured as an OAuth 2.0 authorization server. It must also be able to issue OpenID Connect ID tokens."
+							},
+							"response": []
+						},
+						{
+							"name": "Step5: Create Client Application (CA)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "X-Requested-With",
+										"value": "ForgeRock Collection",
+										"type": "text"
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "cLnZSghbu8o4hSsS4zz9Xncu7dk.*AAJTSQACMDIAAlNLABxmbDhFRExWRUYvSm5heU9mT05SR256dHdhLzA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro=LOvzQx7u6OSemo_khOh4kTyTqXg.*AAJTSQACMDIAAlNLABwvZDYyWTU0N0VHOFI0N1ZBQ1ducEVadFhQZDA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"coreOAuth2ClientConfig\": {\n        \"userpassword\": \"password\",\n        \"scopes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"users\",\n                \"appointments\",\n                \"healthrecords\",\n                \"openid\",\n                \"profile\"\n            ]\n        },\n        \"redirectionUris\": {\n            \"inherited\": false,\n            \"value\": [\"https://ig1.sqoopdata.local:17193/oauth2\"]\n        },\n        \"clientName\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"clientType\": {\n            \"inherited\": false,\n            \"value\": \"Confidential\"\n        },\n        \"authorizationCodeLifetime\": {\n            \"inherited\": false,\n            \"value\": 0\n        }\n    },\n    \"advancedOAuth2ClientConfig\": {\n        \"subjectType\": {\n            \"inherited\": false,\n            \"value\": \"public\"\n        },\n        \"clientUri\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"tokenExchangeAuthLevel\": {\n            \"inherited\": false,\n            \"value\": 0\n        },\n        \"name\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"responseTypes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"code\",\n                \"token\",\n                \"id_token\",\n                \"code token\",\n                \"token id_token\",\n                \"code id_token\",\n                \"code token id_token\",\n                \"device_code\",\n                \"device_code id_token\"\n            ]\n        },\n        \"updateAccessToken\": {\n            \"inherited\": false\n        },\n        \"mixUpMitigation\": {\n            \"inherited\": false,\n            \"value\": false\n        },\n        \"policyUri\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"tokenEndpointAuthMethod\": {\n            \"inherited\": false,\n            \"value\": \"client_secret_post\"\n        },\n        \"isConsentImplied\": {\n            \"inherited\": false,\n            \"value\": false\n        },\n        \"grantTypes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"authorization_code\"\n            ]\n        }\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/emr/realm-config/agents/OAuth2Client/client-application",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"emr",
+										"realm-config",
+										"agents",
+										"OAuth2Client",
+										"client-application"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step6: Create Resource Server (RS)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Requested-With",
+										"value": "ForgeRock Collection"
+									},
+									{
+										"key": "iPlanetDirectoryPro",
+										"value": "cLnZSghbu8o4hSsS4zz9Xncu7dk.*AAJTSQACMDIAAlNLABxmbDhFRExWRUYvSm5heU9mT05SR256dHdhLzA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"disabled": true
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro=LOvzQx7u6OSemo_khOh4kTyTqXg.*AAJTSQACMDIAAlNLABwvZDYyWTU0N0VHOFI0N1ZBQ1ducEVadFhQZDA9AAR0eXBlAANDVFMAAlMxAAIwMQ..*",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"coreOAuth2ClientConfig\": {\n        \"userpassword\": \"password\",\n        \"scopes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"am-introspect-all-tokens\"\n            ]\n        },\n        \"clientName\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"clientType\": {\n            \"inherited\": false,\n            \"value\": \"Confidential\"\n        },\n        \"authorizationCodeLifetime\": {\n            \"inherited\": false,\n            \"value\": 0\n        }\n    },\n    \"advancedOAuth2ClientConfig\": {\n        \"subjectType\": {\n            \"inherited\": false,\n            \"value\": \"public\"\n        },\n        \"clientUri\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"tokenExchangeAuthLevel\": {\n            \"inherited\": false,\n            \"value\": 0\n        },\n        \"name\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"responseTypes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"code\",\n                \"token\",\n                \"id_token\",\n                \"code token\",\n                \"token id_token\",\n                \"code id_token\",\n                \"code token id_token\",\n                \"device_code\",\n                \"device_code id_token\"\n            ]\n        },\n        \"updateAccessToken\": {\n            \"inherited\": false\n        },\n        \"mixUpMitigation\": {\n            \"inherited\": false,\n            \"value\": false\n        },\n        \"policyUri\": {\n            \"inherited\": false,\n            \"value\": []\n        },\n        \"tokenEndpointAuthMethod\": {\n            \"inherited\": false,\n            \"value\": \"client_secret_post\"\n        },\n        \"isConsentImplied\": {\n            \"inherited\": false,\n            \"value\": false\n        },\n        \"grantTypes\": {\n            \"inherited\": false,\n            \"value\": [\n                \"authorization_code\"\n            ]\n        }\n    }\n}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/emr/realm-config/agents/OAuth2Client/resource-server",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"emr",
+										"realm-config",
+										"agents",
+										"OAuth2Client",
+										"resource-server"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Demo",
+					"item": [
+						{
+							"name": "Step7.1: AuthN as ADMIN Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    ",
+											"    var json = pm.response.json();",
+											"    var ssoTokenID = json.tokenId;",
+											"    ",
+											"    pm.globals.set(\"adminSSOTokenID\", ssoTokenID);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "admin"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.0, protocol=1.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/root/realms/emr/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step7.2: AuthN as PATIENT Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    ",
+											"    var json = pm.response.json();",
+											"    var ssoTokenID = json.tokenId;",
+											"    ",
+											"    pm.globals.set(\"patientSSOTokenID\", ssoTokenID);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "patient"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.0, protocol=1.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/root/realms/emr/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step7.3: AuthN as DOCTOR Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    ",
+											"    var json = pm.response.json();",
+											"    var ssoTokenID = json.tokenId;",
+											"    ",
+											"    pm.globals.set(\"doctorSSOTokenID\", ssoTokenID);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableCookies": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-OpenAM-Username",
+										"value": "doctor"
+									},
+									{
+										"key": "X-OpenAM-Password",
+										"value": "bXm*.0.5{DU!"
+									},
+									{
+										"key": "Accept-API-Version",
+										"value": "resource=2.0, protocol=1.0"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}"
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/json/realms/root/realms/emr/authenticate",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"json",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step8.1: Authorize as ADMIN Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var url = postman.getResponseHeader('Location');",
+											"var authZCode = url.split(\"code=\")[1].split(\"&\")[0];",
+											"pm.globals.set(\"authZCode\", authZCode);",
+											"console.log(\"authZCode=\" + authZCode);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro={{adminSSOTokenID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "scope",
+											"value": "users appointments openid healthrecords",
+											"type": "text"
+										},
+										{
+											"key": "response_type",
+											"value": "code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "client-application",
+											"type": "text"
+										},
+										{
+											"key": "csrf",
+											"value": "{{adminSSOTokenID}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "https://ig1.sqoopdata.local:17193/oauth2",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "abc123",
+											"type": "text"
+										},
+										{
+											"key": "decision",
+											"value": "allow",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/authorize",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"oauth2",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authorize"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step8.2: Authorize as PATIENT Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var url = postman.getResponseHeader('Location');",
+											"var authZCode = url.split(\"code=\")[1].split(\"&\")[0];",
+											"pm.globals.set(\"authZCode\", authZCode);",
+											"console.log(\"authZCode=\" + authZCode);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro={{patientSSOTokenID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "scope",
+											"value": "users appointments openid healthrecords",
+											"type": "text"
+										},
+										{
+											"key": "response_type",
+											"value": "code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "client-application",
+											"type": "text"
+										},
+										{
+											"key": "csrf",
+											"value": "{{patientSSOTokenID}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "https://ig1.sqoopdata.local:17193/oauth2",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "abc123",
+											"type": "text"
+										},
+										{
+											"key": "decision",
+											"value": "allow",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/authorize",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"oauth2",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authorize"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step8.3: Authorize as DOCTOR Resource Owner (RO)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var url = postman.getResponseHeader('Location');",
+											"var authZCode = url.split(\"code=\")[1].split(\"&\")[0];",
+											"pm.globals.set(\"authZCode\", authZCode);",
+											"console.log(\"authZCode=\" + authZCode);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									},
+									{
+										"key": "Cookie",
+										"value": "amlbcookie=01; iPlanetDirectoryPro={{doctorSSOTokenID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "scope",
+											"value": "users appointments openid healthrecords",
+											"type": "text"
+										},
+										{
+											"key": "response_type",
+											"value": "code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "client-application",
+											"type": "text"
+										},
+										{
+											"key": "csrf",
+											"value": "{{doctorSSOTokenID}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "https://ig1.sqoopdata.local:17193/oauth2",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "abc123",
+											"type": "text"
+										},
+										{
+											"key": "decision",
+											"value": "allow",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/authorize",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"oauth2",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"authorize"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Step9: Client Get Access Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"    ",
+											"    var json = pm.response.json();",
+											"    var accessToken = json.access_token;",
+											"    ",
+											"    pm.globals.set(\"accessToken\", accessToken);",
+											"    pm.globals.set(\"idToken\", id_token);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "{{authZCode}}",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "client-application",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "https://ig1.sqoopdata.local:17193/oauth2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/access_token",
+									"protocol": "https",
+									"host": [
+										"identity1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17143",
+									"path": [
+										"openam",
+										"oauth2",
+										"realms",
+										"root",
+										"realms",
+										"emr",
+										"access_token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Get Appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/appointments?username=patient",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"appointments"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "patient"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Get Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/appointments/1",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"appointments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Get Users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json",
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+									}
+								],
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/users",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Get User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json",
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+									}
+								],
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/users/patient",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"users",
+										"patient"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Get Health Records",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json",
+										"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman."
+									}
+								],
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/healthrecords?username=patient",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"healthrecords"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "patient"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Create User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"joh\",\n    \"firstName\": \"First Name\",\n    \"lastName\": \"Last Name\",\n    \"utype\": 2\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/users",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"users"
+									]
+								},
+								"description": "Creates New User\n\n\nConstraints:\n\n1. Staff can create new users including Patients and Doctors."
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Create Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startTime\": \"2021-09-28T17:40:21.362898Z\",\n    \"endTime\": \"2021-09-28T17:50:21.362898Z\",\n    \"patient\": \"patient\",\n    \"createdBy\": \"admin\"\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/appointments",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"appointments"
+									]
+								},
+								"description": "Creates New User\n\n\nConstraints:\n\n1. Staff can create new users including Patients and Doctors."
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Create Health Record",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"Patient reported of migrane. Prescribed medication for migrane.\",\n    \"patient\": \"patient\",\n    \"createdBy\": \"doctor\",\n    \"apptId\": 3\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/healthrecords",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"healthrecords"
+									]
+								},
+								"description": "Creates New User\n\n\nConstraints:\n\n1. Staff can create new users including Patients and Doctors."
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"Bob\",\n    \"lastName\": \"Norway\"\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/users/patient",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"users",
+										"patient"
+									]
+								},
+								"description": "Updates Existing User\n\n\nConstraints:\n\n1. Staff can update existing users including Patients and Doctors."
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Update Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"startTime\": \"2021-09-28T17:40:21.362898Z\",\n    \"endTime\": \"2021-09-28T17:50:21.362898Z\",\n    \"status\": 1\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/appointments/1",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"appointments",
+										"1"
+									]
+								},
+								"description": "Updates Existing User\n\n\nConstraints:\n\n1. Staff can update existing users including Patients and Doctors."
+							},
+							"response": []
+						},
+						{
+							"name": "TEST: Update Health Record",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"apptId\": 2,\n    \"patient\": \"patient\",\n    \"description\": \"Updated\",\n    \"createdBy\": \"doctor\",\n    \"created\": \"2021-09-23T15:47:49.64535Z\"\n}"
+								},
+								"url": {
+									"raw": "https://ig1.sqoopdata.local:17193/healthrecords/1",
+									"protocol": "https",
+									"host": [
+										"ig1",
+										"sqoopdata",
+										"local"
+									],
+									"port": "17193",
+									"path": [
+										"healthrecords",
+										"1"
+									]
+								},
+								"description": "Updates Existing User\n\n\nConstraints:\n\n1. Staff can update existing users including Patients and Doctors."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "FR-OPA-Integration",
+			"item": [
+				{
+					"name": "Eval Policy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": {\n        \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIodXNyIWFkbWluKSIsImN0cyI6Ik9BVVRIMl9TVEFURUxFU1NfR1JBTlQiLCJhdXRoX2xldmVsIjowLCJhdWRpdFRyYWNraW5nSWQiOiI5ODg2NmRmYS0wMzg3LTRiMzUtODQxMi05ODA2MjY0MzQ4MzktNjY1NiIsInN1Ym5hbWUiOiJhZG1pbiIsImlzcyI6Imh0dHBzOi8vaWRlbnRpdHkxLnNxb29wZGF0YS5sb2NhbDoxNzE0My9vcGVuYW0vb2F1dGgyL3JlYWxtcy9yb290L3JlYWxtcy9lbXIiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiJid3N2SzFveGxxeGpabTBVZVQ2MHhtSkN1V0EiLCJhdWQiOiJjbGllbnQtYXBwbGljYXRpb24iLCJuYmYiOjE2MzI0NDc2MTYsImdyYW50X3R5cGUiOiJhdXRob3JpemF0aW9uX2NvZGUiLCJzY29wZSI6WyJhcHBvaW50bWVudHMiLCJvcGVuaWQiLCJ1c2VycyJdLCJhdXRoX3RpbWUiOjE2MzI0NDc2MDcsInJlYWxtIjoiL2VtciIsImV4cCI6MTYzMjQ1MTIxNiwiaWF0IjoxNjMyNDQ3NjE2LCJleHBpcmVzX2luIjozNjAwLCJqdGkiOiJQcEo0ampfdkJrY2Y4YmROTmdERkszR2F6NGsiLCJyb2xlcyI6WyJST0xFX2FkbWluIl19.KjHQryLu9fow89PW4AriaMkmS7ycFePZVxOxxarkPQ0\",\n        \"request\": {\n            \"path\": \"/appointments\",\n            \"method\": \"GET\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8181/v1/data/appointment",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8181",
+							"path": [
+								"v1",
+								"data",
+								"appointment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"input\": {\n        \"request\": {\n            \"access_token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJGb2w3SXBkS2VMWm16S3RDRWdpMUxEaFNJek09IiwiYWxnIjoiRVMyNTYifQ.eyJzdWIiOiIodXNyIXBhdGllbnQpIiwiY3RzIjoiT0FVVEgyX1NUQVRFTEVTU19HUkFOVCIsImF1dGhfbGV2ZWwiOjAsImF1ZGl0VHJhY2tpbmdJZCI6ImNhOWM0ODc3LTM3NmMtNDkyYi1hZjM0LTFmODdhNWNjNWQ2OC0zNzIiLCJzdWJuYW1lIjoicGF0aWVudCIsImlzcyI6Imh0dHBzOi8vaWRlbnRpdHkxLnNxb29wZGF0YS5sb2NhbDoxNzE0My9vcGVuYW0vb2F1dGgyL3JlYWxtcy9yb290L3JlYWxtcy9lbXIiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiI5STQ3WGdXMndBS3lURjhoUmlOcl9mSFhGTlEiLCJhdWQiOiJjbGllbnQtYXBwbGljYXRpb24iLCJuYmYiOjE2MzE3MTc0OTgsImdyYW50X3R5cGUiOiJhdXRob3JpemF0aW9uX2NvZGUiLCJzY29wZSI6WyJhcHBvaW50bWVudHMiXSwiYXV0aF90aW1lIjoxNjMxNzE3NDkzLCJyZWFsbSI6Ii9lbXIiLCJleHAiOjE2MzE3MjEwOTgsImlhdCI6MTYzMTcxNzQ5OCwiZXhwaXJlc19pbiI6MzYwMCwianRpIjoiY0p6Uk1xN1JkcVVHUnZmSHVPZVgwbFVraTlVIn0.r0iEk49ZtrGczfJ718ZpNAFCMxbI69SVmU9ENwYHc8JvH7Fc5uZhBOrxTX6JZTuk6yx-Sb3XigabAb0Di8bvjA\",\n            \"id_token\": \"eyJ0eXAiOiJKV1QiLCJraWQiOiJ3VTNpZklJYUxPVUFSZVJCL0ZHNmVNMVAxUU09IiwiYWxnIjoiUlMyNTYifQ.eyJhdF9oYXNoIjoiWUhqY1lxdUcybldra0h3emtXVTdhZyIsInN1YiI6Iih1c3IhcGF0aWVudCkiLCJhdWRpdFRyYWNraW5nSWQiOiJjYTljNDg3Ny0zNzZjLTQ5MmItYWYzNC0xZjg3YTVjYzVkNjgtMjM5MyIsInJvbGVzIjpbIlJPTEVfcGF0aWVudCIsIlJPTEVfYWRtaW4iXSwic3VibmFtZSI6InBhdGllbnQiLCJpc3MiOiJodHRwczovL2lkZW50aXR5MS5zcW9vcGRhdGEubG9jYWw6MTcxNDMvb3BlbmFtL29hdXRoMi9yZWFsbXMvcm9vdC9yZWFsbXMvZW1yIiwidG9rZW5OYW1lIjoiaWRfdG9rZW4iLCJnaXZlbl9uYW1lIjoiUGF0aWVudCIsInNpZCI6ImxzZW5Ebk5xa0J5MFNWVDEvTzhiOEpWV2J0WG0yZUd0cCt5UHo1Wkhkdk09IiwiYXVkIjoiY2xpZW50LWFwcGxpY2F0aW9uIiwiY19oYXNoIjoiQWRVdW1KdDhCZktldUQwQ25MM09DUSIsImFjciI6IjAiLCJvcmcuZm9yZ2Vyb2NrLm9wZW5pZGNvbm5lY3Qub3BzIjoiNVJzcGxGRHowREF6RGcyVXF6ZFk2WHpVcVFFIiwic19oYXNoIjoiYktFOVVzcHd5SVBnOExzUUhrSmFpUSIsImF6cCI6ImNsaWVudC1hcHBsaWNhdGlvbiIsImF1dGhfdGltZSI6MTYzMTcyMTgyOCwibmFtZSI6IlBhdGllbnQgUGF0aWVudCIsInJlYWxtIjoiL2VtciIsImV4cCI6MTYzMTcyNTQzNCwidG9rZW5UeXBlIjoiSldUVG9rZW4iLCJpYXQiOjE2MzE3MjE4MzQsImZhbWlseV9uYW1lIjoiUGF0aWVudCJ9.tGQiblXjtVX1nQhqCJDNJn84Tvc8QzNDhAeN-0mNelbjRZ_UUYvzp4l45pm3eu9erlIktui0fthD9xAF5UTIX7G3JMEqx3DzNxae5L6ODBCD1RKC5lP2WFJLwsGAW7t_iLpW26AD57JpAYO5TfO95ixu6AyCOKPIsAychDaRK8Kv78g0bUGUvV4yWYOsktFyOampaSw-qsDtgp9dCnjc9ijeZT5jmhV1Q_NMTGpvXdro5N5cKUrABJ2r_ad8OW6GyqRtGjX6ZUtm2vewX7bWD0em_dbz0OyQE15j9kxCkZMXXgpgHOPSqk3erILfzBaNQIhnIARymeLsPtRhSsuRgQ\"\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8181/v1/data/oidc/authorize",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8181",
+							"path": [
+								"v1",
+								"data",
+								"oidc",
+								"authorize"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get UserInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    var json = pm.response.json();",
+									"    var accessToken = json.access_token;",
+									"    ",
+									"    pm.globals.set(\"accessToken\", accessToken);",
+									"    pm.globals.set(\"idToken\", id_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/userinfo",
+							"protocol": "https",
+							"host": [
+								"identity1",
+								"sqoopdata",
+								"local"
+							],
+							"port": "17143",
+							"path": [
+								"openam",
+								"oauth2",
+								"realms",
+								"root",
+								"realms",
+								"emr",
+								"userinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Introspect Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    ",
+									"    var json = pm.response.json();",
+									"    var accessToken = json.access_token;",
+									"    ",
+									"    pm.globals.set(\"accessToken\", accessToken);",
+									"    pm.globals.set(\"idToken\", id_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://identity1.sqoopdata.local:17143/openam/oauth2/realms/root/realms/emr/introspect",
+							"protocol": "https",
+							"host": [
+								"identity1",
+								"sqoopdata",
+								"local"
+							],
+							"port": "17143",
+							"path": [
+								"openam",
+								"oauth2",
+								"realms",
+								"root",
+								"realms",
+								"emr",
+								"introspect"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -2664,6 +4259,10 @@
 		},
 		{
 			"key": "ALICE_SSO_TOKEN_ID",
+			"value": ""
+		},
+		{
+			"key": "scriptId",
 			"value": ""
 		}
 	]
