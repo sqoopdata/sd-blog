@@ -12,7 +12,7 @@ allow {
 allow {
     some i
     input.request.method == "GET"
-    re_match("^/users/[a-zA-Z0-9]+$", input.request.path)
+    regex.match("^/users/[a-zA-Z0-9]+$", input.request.path)
     data.oauth2.tokens.ac.roles[i] == "ROLE_admin"
 }
 
@@ -26,6 +26,6 @@ allow {
 allow {
     some i
     input.request.method == "PUT"
-    re_match("^/users/[a-zA-Z0-9]+$", input.request.path)
+    regex.match("^/users/[a-zA-Z0-9]+$", input.request.path)
     data.oauth2.tokens.ac.roles[i] == "ROLE_admin"
 }

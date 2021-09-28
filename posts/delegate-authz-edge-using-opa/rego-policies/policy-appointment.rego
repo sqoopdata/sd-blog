@@ -14,7 +14,7 @@ allow {
     some i,j
     roles := ["ROLE_admin", "ROLE_patient"]
     input.request.method == "GET"
-    re_match("^/appointments/[0-9]+$", input.request.path)
+    regex.match("^/appointments/[0-9]+$", input.request.path)
     data.oauth2.tokens.ac.roles[i] == roles[j]
 }
 
@@ -30,6 +30,6 @@ allow {
     some i,j
     roles := ["ROLE_admin"]
     input.request.method == "PUT"
-    re_match("^/appointments/[0-9]+$", input.request.path)
+    regex.match("^/appointments/[0-9]+$", input.request.path)
     data.oauth2.tokens.ac.roles[i] == roles[j]
 }

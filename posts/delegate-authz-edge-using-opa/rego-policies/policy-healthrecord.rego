@@ -22,6 +22,6 @@ allow {
     some i
     roles := ["ROLE_doctor"]
     input.request.method == "PUT"
-    re_match("^/healthrecords/[0-9]+$", input.request.path)
+    regex.match("^/healthrecords/[0-9]+$", input.request.path)
     data.oauth2.tokens.ac.roles[i] == roles[j]
 }
